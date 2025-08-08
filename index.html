@@ -1,0 +1,50 @@
+<div class="gallery" id="gallery"></div>
+
+<div class="viewer" id="viewer">
+<div class="viewer-layout" id="viewerLayout">
+
+<!-- Botón de pantalla completa está fuera del bloque blanco -->
+<div class="viewer-header">
+</div>
+
+
+    <!-- Imagen -->
+    <div class="viewer-image">
+<button class="nav-button prev" onclick="prevSlide()">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" width="15" height="27" viewBox="0 0 15 27">
+    <g fill-rule="evenodd">
+      <path fill-rule="nonzero" d="M14.258 1.53L13.198.47-.061 13.728l13.259 13.258 1.06-1.06L2.061 13.728z"></path>
+    </g>
+  </svg>
+</button>
+
+      <img id="viewerImg" src="" alt="Foto grande" />
+<button class="nav-button next" onclick="nextSlide()">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" width="15" height="27" viewBox="0 0 15 27" style="transform: scaleX(-1);">
+    <g fill-rule="evenodd">
+      <path fill-rule="nonzero" d="M14.258 1.53L13.198.47-.061 13.728l13.259 13.258 1.06-1.06L2.061 13.728z"></path>
+    </g>
+  </svg>
+</button>
+
+    </div>
+
+  
+  
+<div class="viewer-text">
+    <button class="close-inside" 
+onclick="closeViewer()">✕</button>
+  <p id="viewerDesc">Descripción</p>
+</div>
+  
+  
+
+      
+      
+    </div>
+
+  </div>
+</div>
+
+
+

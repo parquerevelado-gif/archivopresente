@@ -1,0 +1,641 @@
+body {
+  font-family: sans-serif;
+  background: #BF7050;
+  margin: 0;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.1rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.slide-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: visible;
+  transition: transform 0.3s ease;
+}
+
+.slide-thumb:hover {
+  transform: scale(1.03); /* agranda levemente el conjunto */
+    filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.3));
+}
+}
+
+.slide-thumb .photo {
+  transition: transform 0.3s ease;
+}
+
+.slide-thumb:hover .photo {
+  transform: scale(1.05); /* agranda la foto levemente */
+  opacity: 1;
+}
+
+
+
+.slide-thumb .frame-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Ventana visible dentro del marco */
+.slide-thumb .photo-mask {
+  position: absolute;
+  top: 15%;
+  left: 8%;
+  width: 82%;
+  height: 64%;
+  overflow: hidden;
+  background: black;
+  z-index: 1;
+}
+/* Imagen contenida dentro del agujero */
+.slide-thumb .photo {
+  width: 90%;
+  height: 120%;
+  object-fit: cover; /* 👉 esto es lo importante */
+  object-position: center;
+  display: block;
+    opacity: 0.6; /* 👈 ajusta este valor entre 0 y 1 */
+
+}
+
+
+
+/* Marco PNG encima */
+.slide-thumb .frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+  pointer-events: none;
+
+  /* 👇 Sombra base (suave) siempre presente */
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
+  transition: filter 0.3s ease;
+}
+
+
+
+
+
+
+
+/* Estilos del visor */
+.viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.9) 80%);
+  backdrop-filter: blur(2px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.viewer.active {
+  display: flex;
+}
+
+.viewer-content {
+  background: #111;
+  padding: 1rem;
+  border-radius: 8px;
+  color: white;
+  max-width: 90%;
+  max-height: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.2);
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.viewer.active .viewer-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.viewer-img-wrapper {
+  width: 100%;
+  max-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.viewer-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* ------------------ Animaciones ------------------ */
+
+/* Fade-out */
+.fade-out {
+  animation: fadeOut 0.25s ease forwards;
+}
+
+/* Fade-in */
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Slide directions */
+.slide-left {
+  animation: slideLeft 0.25s ease forwards;
+}
+
+.slide-right {
+  animation: slideRight 0.25s ease forwards;
+}
+
+/* KEYFRAMES */
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(40px);
+  }
+}
+
+.rotate-frame {
+  transform: rotate(90deg);
+}
+
+
+
+/* Ajustes para marcos verticales */
+.slide-thumb.vertical .photo-mask {
+  top: 16%;         /* ajuste visual */
+  left: 32%;
+  width: 36%;
+  height: 68%;
+}
+
+/* Asegurar que la imagen se comporte correctamente */
+.slide-thumb.vertical .photo {
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Rotar el marco PNG para que coincida */
+.slide-thumb.vertical .frame {
+  transform: rotate(90deg) translateY(10%);
+  transform-origin: center;
+}
+
+.photo.horizontal {
+  max-width: 300%;
+  max-height: 300%;
+  object-fit: cover;
+  object-position: 45% 52%;
+}
+
+.photo.vertical {
+  max-width: 80%;
+  max-height: 200%;
+  object-fit: cover;
+  object-position: 55% 45%;
+}
+/* ------------------ VISOR ------------------ */
+
+.viewer-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 90vw;
+  max-width: 1200px;
+  height: 80vh;
+  background: white;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+.viewer-layout {
+  width: 90vw;
+  max-width: 1200px;
+  background-color: black;
+  transition: background-color 0.3s ease;
+}
+.viewer-layout.loaded {
+  background-color: black;
+}
+
+.viewer-header {
+  position: absolute;
+  top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  z-index: 10;
+}
+
+.viewer-header button {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.viewer-image {
+  position: relative;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viewer-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
+  z-index: 5;
+}
+
+.nav-button.prev { left: 1rem; }
+.nav-button.next { right: 1rem; }
+
+.viewer-text {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.viewer-text h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.viewer-text p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.viewer-layout {
+  display: grid;
+  width: 90vw;
+  max-width: 1200px;
+  height: 80vh;
+  background: white;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  grid-template-columns: 1fr 1fr; /* Valor por defecto */
+}
+
+/* 🟩 Imagen horizontal → imagen más ancha */
+.viewer-layout.horizontal {
+  grid-template-columns: 3fr 2fr;
+}
+
+/* 🟦 Imagen vertical → columnas iguales */
+.viewer-layout.vertical {
+  width: 50vw; /* ✅ más angosto que el horizontal */
+  max-width: 800px;
+  grid-template-columns: 1fr 1fr; /* ✅ imagen ocupa 2/3, texto 1/3 */
+}
+.viewer-image {
+  position: relative;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* 👈 por si hace falta evitar desbordes */
+}
+
+.nav-button {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
+  z-index: 10; /* 👈 asegurate que estén por encima de la imagen */
+  pointer-events: auto;
+}
+
+.nav-button:hover {
+  background-color: rgba(0, 0, 0, 0.3); /* se oscurece más al pasar el mouse */
+  button-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  border-radius: 15%;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem; /* top right bottom left */
+
+}
+
+.nav-button.prev {
+  left: 1rem;
+}
+
+.nav-button.next {
+  right: 1rem;
+}
+.viewer-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 👉 evita bandas negras */
+  object-position: center;
+}
+
+
+.viewer-img-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.viewer-img-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.modal-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* ----- IMAGENES HORIZONTALES ----- */
+.modal-image.horizontal {
+  flex: 2;
+}
+
+.modal-text.horizontal {
+  flex: 1;
+}
+
+/* ----- IMAGENES VERTICALES ----- */
+.viewer-image.vertical {
+  flex: none !important;
+  width: 20vw;   /* angosto */
+  height: 80vh;  /* alto => forma vertical real */
+}
+
+.viewer-text.vertical {
+  flex: none !important;
+  height: 80vh; /* para acompañar el alto de la imagen */
+}
+
+/* ----- MODAL IMAGE GENERAL ----- */
+.modal-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #eee;
+  transition: all 0.3s ease;
+}
+
+/* ----- IMAGEN INTERNA ----- */
+.modal-image img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ----- BOTONES ----- */
+
+
+.close-inside {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: black;
+  cursor: pointer;
+  z-index: 10;
+}
+
+
+@media (max-width: 600px) {
+  #gallery {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+
+  .slide-thumb {
+    aspect-ratio: 1 / 1;
+  }
+
+  .slide-thumb.vertical .photo-mask {
+    top: 18%;
+    left: 28%;
+    width: 44%;
+    height: 60%;
+  }
+
+  .slide-thumb.vertical .frame {
+    transform: rotate(90deg) scale(0.95);
+  }
+
+  .viewer-layout.horizontal,
+  .viewer-layout.vertical {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100vw;
+    height: auto;
+    max-height: 90vh;
+    margin: 5vh auto;
+    border-radius: 12px;
+    background: white;
+    overflow: hidden;
+  }
+
+  .viewer-image {
+    width: 100%;
+    max-height: 60vh;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .viewer-image img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .viewer-text {
+    padding: 1rem;
+    background: white;
+    color: black;
+    text-align: left;
+  }
+
+  .viewer-text p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .nav-button {
+    font-size: 1.5rem;
+    top: 50%;
+  }
+
+  .viewer-header button {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .viewer-layout.vertical {
+    width: 90vw;
+    max-width: 480px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 auto;
+    height: auto !important;
+    position: relative; /* para que los hijos con absolute se posicionen aquí */
+
+  }
+
+  .viewer-layout.vertical .viewer-image {
+    width: 100%;
+    height: 65vh; /* menos alto */
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .viewer-layout.vertical .viewer-image img {
+    height: 100% !important;
+    width: auto !important;
+    max-height: 100% !important;
+    object-fit: contain;
+    margin: 0 auto;
+    border-radius: 0;
+  }
+
+.viewer-layout.vertical .viewer-text {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: black !important;
+  background: white !important;
+  padding: 1rem !important;
+  padding-top: 2.5rem !important; /* espacio extra para que la cruz no tape el texto */
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
+  max-height: 20vh;
+  overflow-y: auto;
+  z-index: 10;
+  position: relative;
+}
+  
+.viewer-layout.vertical .close-inside {
+  position: fixed !important;
+  top: 3rem !important;
+  right: 2rem !important;
+  z-index: 10000 !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 1.5rem !important;
+  color: black !important;
+  cursor: pointer !important;
+}
+    .viewer-layout.vertical .nav-button svg {
+    color: black; /* o el color que quieras */
+    fill: black;  /* asegura que el interior del ícono también cambie */
+  }
+  .viewer-layout.vertical .nav-button:hover {
+  background: none !important;
+}
+  
+  @media (max-width: 600px) {
+  .viewer-layout.horizontal .close-inside {
+    color: white; /* o red, #ff0000, etc. */
+  }
+}
+
+
