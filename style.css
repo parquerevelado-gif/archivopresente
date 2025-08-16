@@ -634,8 +634,8 @@ body {
   
 .viewer-layout.vertical .close-inside {
   position: fixed !important;
-  top: 3rem !important;
-  right: 2rem !important;
+  top: 3.4rem !important;
+  right: 1.6rem !important;
   z-index: 10000 !important;
   background: transparent !important;
   border: none !important;
