@@ -358,6 +358,13 @@ body {
   overflow: hidden;
   grid-template-columns: 1fr 1fr; /* Valor por defecto */
 }
+.viewer-layout {
+  width: auto;          /* no dejar que Wix fuerce el width */
+  max-width: 1200px;    /* tu límite original */
+  height: auto;         /* no forzar altura */
+  max-height: 80vh;     /* limitar altura para que no se salga de la pantalla */
+  margin: 0 auto;       /* centra en el iframe */
+}
 
 /* 🟩 Imagen horizontal → imagen más ancha */
 .viewer-layout.horizontal {
