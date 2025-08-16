@@ -373,9 +373,12 @@ body {
 
 /* 🟦 Imagen vertical → columnas iguales */
 .viewer-layout.vertical {
-  width: 50vw; /* ✅ más angosto que el horizontal */
-  max-width: 800px;
-  grid-template-columns: 1fr 1fr; /* ✅ imagen ocupa 2/3, texto 1/3 */
+  width: auto;          /* ancho se adapta al contenido */
+  max-width: 600px;     /* límite razonable para verticales */
+  height: auto;         /* altura se adapta */
+  max-height: 80vh;     /* no exceder la pantalla */
+  margin: 0 auto;       /* centrado */
+  grid-template-columns: 1fr 1fr; /* mantiene distribución */
 }
 .viewer-image {
   position: relative;
@@ -463,6 +466,7 @@ body {
   height: 80vh;  /* alto => forma vertical real */
 }
 
+
 .viewer-text.vertical {
   flex: none !important;
   height: 80vh; /* para acompañar el alto de la imagen */
@@ -505,7 +509,8 @@ body {
 
 @media (max-width: 600px) {
   #gallery {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(2, 1fr); /* fuerza 2 columnas por fila */
+    gap: 0.1rem;
   }
 
   .slide-thumb {
