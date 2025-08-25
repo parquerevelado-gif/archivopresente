@@ -634,8 +634,8 @@ body {
   
 .viewer-layout.vertical .close-inside {
   position: fixed !important;
-  top: 3.4rem !important;
-  right: 1.6rem !important;
+  top: 6rem !important;
+  right: 2rem !important;
   z-index: 10000 !important;
   background: transparent !important;
   border: none !important;
@@ -655,6 +655,17 @@ body {
   .viewer-layout.horizontal .close-inside {
     color: white; /* o red, #ff0000, etc. */
   }
+}
+/* 🔒 Fix Safari iOS: forzar color correcto de la cruz */
+.viewer-layout.vertical .close-inside {
+  color: black !important;
+  -webkit-text-fill-color: black !important; /* fuerza el color en Safari iOS */
+  text-shadow: none !important;
+}
+
+.viewer-layout.horizontal .close-inside {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
 }
 
 
