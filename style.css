@@ -330,10 +330,11 @@ body {
 .nav-button.next { right: 1rem; }
 
 .viewer-text {
-  padding: 2rem;
+  padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; /* sigue centrado */
+  transform: translateY(-10%); /* súbelo un poquito */
 }
 
 .viewer-text h2 {
@@ -496,7 +497,7 @@ body {
 
 .close-inside {
   position: absolute;
-  top: 1rem;
+  top: 2.5rem;
   right: 1rem;
   background: transparent;
   border: none;
