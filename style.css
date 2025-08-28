@@ -1,5 +1,5 @@
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: Montserrat, sans-serif;
   background: #7F3111;
   margin: 0;
   padding: 2rem;
@@ -330,11 +330,10 @@ body {
 .nav-button.next { right: 1rem; }
 
 .viewer-text {
-  padding: 1rem 2rem;
+  padding: 8rem 2rem 2rem 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* sigue centrado */
-  transform: translateY(-10%); /* súbelo un poquito */
+  justify-content: flex-start;
 }
 
 .viewer-text h2 {
@@ -497,7 +496,7 @@ body {
 
 .close-inside {
   position: absolute;
-  top: 3.5rem;
+  top: 1rem;
   right: 1rem;
   background: transparent;
   border: none;
@@ -636,7 +635,7 @@ body {
 .viewer-layout.vertical .close-inside {
   position: fixed !important;
   top: 6rem !important;
-  right: 2rem !important;
+  right: 1.8rem !important;
   z-index: 10000 !important;
   background: transparent !important;
   border: none !important;
@@ -657,16 +656,3 @@ body {
     color: white; /* o red, #ff0000, etc. */
   }
 }
-/* 🔒 Fix Safari iOS: forzar color correcto de la cruz */
-.viewer-layout.vertical .close-inside {
-  color: black !important;
-  -webkit-text-fill-color: black !important; /* fuerza el color en Safari iOS */
-  text-shadow: none !important;
-}
-
-.viewer-layout.horizontal .close-inside {
-  color: white !important;
-  -webkit-text-fill-color: white !important;
-}
-
-
