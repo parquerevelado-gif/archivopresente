@@ -330,7 +330,7 @@ body {
 .nav-button.next { right: 1rem; }
 
 .viewer-text {
-  padding: 8rem 2rem 2rem 2rem;
+  padding: 2rem 2rem 2rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -342,7 +342,7 @@ body {
 }
 
 .viewer-text p {
-  font-size: 1.2rem;
+  font-size: 12px;
   line-height: 1.5;
 }
 
